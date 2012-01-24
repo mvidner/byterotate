@@ -1,0 +1,9 @@
+Byterotate
+==========
+
+Byterotate changes the EXIF orientation of an image by touching the
+single byte that specifies it. That means that the camera that took
+the picture will still be able to display the image, unlike when
+rotated by more generic tools.
+
+License: MIT http://www.opensource.org/licenses/mit-license.html
