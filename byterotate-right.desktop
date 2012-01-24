@@ -1,0 +1,18 @@
+[Desktop Entry]
+Comment[cs]=
+Comment=
+Exec=byterotate %f r
+GenericName[cs]=
+GenericName=
+MimeType=image/jpeg;
+Name=Byterotate right
+NoDisplay=true
+Path=
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
