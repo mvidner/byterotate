@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+$data = IO.read(ARGV[0], 0x2400)
+
+def check_contents_at(offset, contents, description)
+  size = contents.bytesize
+  raise "#{description} not found at offset #{offset}" unless $data[offset, size] == contents
+end
+
+EXIF_ORIENTATION = "\x12\x01\x03\x00\x01\x00\x00\x00"
+check_contents_at 0x00c0, "DMC-GF2", "camera model"
+check_contents_at 0x002e, EXIF_ORIENTATION, "image orientation" # 0x36
+check_contents_at 0x2380, EXIF_ORIENTATION, "thumbnail orientation" # 0x2388
+
+ROTATION = {
+  "n" => "\x00",
+  "l" => "\x08",
+  "r" => "\x06",
+}
+
+rotation = ROTATION[ARGV[1]]
+
+File.open(ARGV[0], "r+") do |f|
+  f.seek(0x36, IO::SEEK_SET)
+  f.write(rotation)
+
+  f.seek(0x2388, IO::SEEK_SET)
+  f.write(rotation)
+end
