@@ -27,3 +27,5 @@ File.open(ARGV[0], "r+") do |f|
   f.seek(0x2388, IO::SEEK_SET)
   f.write(rotation)
 end
+
+system "qdbus $(qdbus | grep gwenview) /gwenview/MainWindow_1/actions/reload trigger"
