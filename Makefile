@@ -20,3 +20,4 @@ install_user install_system: install_%:
 	install -t ${$*_bin_dir} ${PROGRAMS}
 	install -d ${$*_xdg_data_dir}/applications
 	install -t ${$*_xdg_data_dir}/applications -m 644 ${DESKTOPS}
+	-kbuildsycoca4

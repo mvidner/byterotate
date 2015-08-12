@@ -1,5 +1,17 @@
 #!/usr/bin/env ruby
 
+if ARGV.empty?
+  puts "Usage: byterotate FILE ROTATION"
+  puts "  Rotates pictures taken by a Panasonic GF2 camera by changing as few bytes as possible"
+  puts "  so that they are still viewable in the camera"
+  puts
+  puts "  ROTATION may be"
+  puts "  'n' No rotation"
+  puts "  'l' Left"
+  puts "  'r' Right"
+  exit
+end
+
 $data = IO.read(ARGV[0], 0x2400)
 
 def check_contents_at(offset, contents, description)
