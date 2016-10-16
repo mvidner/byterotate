@@ -14,15 +14,30 @@ end
 
 $data = IO.read(ARGV[0], 0x2400)
 
-def check_contents_at(offset, contents, description)
+def check_contents_at!(offset, contents, description)
+  return if check_contents_at(offset, contents)
+  raise "#{description} not found at offset #{offset}"
+end
+
+def check_contents_at(offset, contents)
   size = contents.bytesize
-  raise "#{description} not found at offset #{offset}" unless $data[offset, size] == contents
+  $data[offset, size] == contents
 end
 
 EXIF_ORIENTATION = "\x12\x01\x03\x00\x01\x00\x00\x00"
-check_contents_at 0x00c0, "DMC-GF2", "camera model"
-check_contents_at 0x002e, EXIF_ORIENTATION, "image orientation" # 0x36
-check_contents_at 0x2380, EXIF_ORIENTATION, "thumbnail orientation" # 0x2388
+
+if check_contents_at(0x00c0, "DMC-GF2")
+  orientation_offsets = [0x002e, 0x2380]
+elsif check_contents_at(0x00c4, "DSC-P12")
+  orientation_offsets = [0x003a, 0x08d2]
+else
+  puts "Unrecognized camera model"
+  exit 1
+end
+
+orientation_offsets.each do |o|
+  check_contents_at!(o, EXIF_ORIENTATION, "image orientation")
+end
 
 ROTATION = {
   "n" => "\x00",
@@ -33,11 +48,10 @@ ROTATION = {
 rotation = ROTATION[ARGV[1]]
 
 File.open(ARGV[0], "r+") do |f|
-  f.seek(0x36, IO::SEEK_SET)
-  f.write(rotation)
-
-  f.seek(0x2388, IO::SEEK_SET)
-  f.write(rotation)
+  orientation_offsets.each do |o|
+    f.seek(o + 8, IO::SEEK_SET)
+    f.write(rotation)
+  end
 end
 
 system "qdbus $(qdbus | grep gwenview) /gwenview/MainWindow_1/actions/reload trigger"
