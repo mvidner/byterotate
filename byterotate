@@ -12,7 +12,7 @@ if ARGV.empty?
   exit
 end
 
-$data = IO.read(ARGV[0], 0x2400)
+$data = IO.read(ARGV[0], 0xffff)
 
 def check_contents_at!(offset, contents, description)
   return if check_contents_at(offset, contents)
@@ -28,6 +28,8 @@ EXIF_ORIENTATION = "\x12\x01\x03\x00\x01\x00\x00\x00"
 
 if check_contents_at(0x00c0, "DMC-GF2")
   orientation_offsets = [0x002e, 0x2380]
+elsif check_contents_at(0x00c0, "DMC-GX80")
+  orientation_offsets = [0x002e, 0x72ba]
 elsif check_contents_at(0x00c4, "DSC-P12")
   orientation_offsets = [0x003a, 0x08d2]
 else
