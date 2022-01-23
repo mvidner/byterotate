@@ -9,6 +9,7 @@ if ARGV.empty?
   puts "  'n' No rotation"
   puts "  'l' Left"
   puts "  'r' Right"
+  puts "  'u' Upside down"
   exit
 end
 
@@ -45,6 +46,7 @@ ROTATION = {
   "n" => "\x00",
   "l" => "\x08",
   "r" => "\x06",
+  "u" => "\x03",
 }
 
 rotation = ROTATION[ARGV[1]]
