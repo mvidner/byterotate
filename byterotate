@@ -58,4 +58,4 @@ File.open(ARGV[0], "r+") do |f|
   end
 end
 
-system "qdbus $(qdbus | grep gwenview) /gwenview/MainWindow_1/actions/reload trigger"
+system "qdbus $(qdbus | grep -i gwenview) /gwenview/MainWindow_1/actions/reload trigger"
