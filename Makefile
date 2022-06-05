@@ -5,7 +5,7 @@ help:
 	@echo "  make help (this one)"
 
 PROGRAMS = byterotate
-DESKTOPS = byterotate-left.desktop byterotate-right.desktop
+DESKTOPS = byterotate-left.desktop byterotate-right.desktop byterotate-upsidedown.desktop
 
 user_bin_dir = $$HOME/bin
 user_xdg_data_dir = $$HOME/.local/share
@@ -21,3 +21,4 @@ install_user install_system: install_%:
 	install -d ${$*_xdg_data_dir}/applications
 	install -t ${$*_xdg_data_dir}/applications -m 644 ${DESKTOPS}
 	-kbuildsycoca4
+	-kbuildsycoca5
