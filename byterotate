@@ -58,4 +58,15 @@ File.open(ARGV[0], "r+") do |f|
   end
 end
 
-system "qdbus $(qdbus | grep -i gwenview) /gwenview/MainWindow_1/actions/reload trigger"
+def gwenview_reload
+  service_line = `busctl --user`.lines.grep(/gwenview/).first
+  return if service_line.nil?
+
+  service = service_line.split.first
+  system "busctl --user call #{service}" \
+         " /gwenview/MainWindow_1/actions/reload" \
+         " org.qtproject.Qt.QAction" \
+         " trigger"
+end
+
+gwenview_reload
