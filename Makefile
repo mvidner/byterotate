@@ -7,7 +7,7 @@ help:
 PROGRAMS = byterotate
 DESKTOPS = byterotate-left.desktop byterotate-right.desktop byterotate-upsidedown.desktop
 
-user_bin_dir = $$HOME/bin
+user_bin_dir = $$HOME/.local/bin
 user_xdg_data_dir = $$HOME/.local/share
 
 system_bin_dir = /usr/bin
